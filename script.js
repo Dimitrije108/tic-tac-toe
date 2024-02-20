@@ -38,21 +38,19 @@ function Play() {
     function playRound(row, column) {
         if (typeof board[row][column] !== 'string') {
             board[row][column] = activePlayer.value;
+            winCondition();
             changePlayerTurn();
         }
-        winCondition();
     }
 
     function winCondition() {
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < i.length; j++) {
-                if (typeof board[i][j] !== 'string') {
-                    break;
-                } else {
-                    alert("It's a draw!");
-                }
+        board.forEach((array) => {
+            const checkRow = array.every(value => value === activePlayer.value);
+            if (checkRow === true) {
+                alert("You've won!");
             }
-        }
+        })
+        
     }
 
     return {
