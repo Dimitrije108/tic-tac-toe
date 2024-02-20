@@ -44,14 +44,14 @@ function Play() {
     }
 
     function winCondition() {
-        //check 3 in a row value combination
+        //check 3 in a row combinations
         board.forEach((array) => {
             const checkRow = array.every(value => value === activePlayer.value);
             if (checkRow === true) {
                 alert("You've won!");
             }
         })
-        //check 3 in a column value combination
+        //check 3 in a column combinations
         let firstColumn = [];
         let secondColumn = [];
         let thirdColumn = [];
@@ -70,6 +70,29 @@ function Play() {
                 alert("You've won!");
             }
         })
+        //check diagonal combinations
+        let firstDiagonal = [];
+        let secondDiagonal = [];
+
+        let first = 0;
+        let second = 2;
+
+        board.filter((array) => {
+            firstDiagonal.push(array[first]);
+            secondDiagonal.push(array[second]);
+            first++;
+            second--;
+        })
+
+        let diagonals = [firstDiagonal, secondDiagonal];
+
+        diagonals.forEach((array) => {
+            const checkDiagonal = array.every(value => value === activePlayer.value);
+            if (checkDiagonal === true) {
+                alert("You've won!");
+            }
+        })
+        //check for a draw
         
     }
 
