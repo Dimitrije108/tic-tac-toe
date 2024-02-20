@@ -93,7 +93,11 @@ function Play() {
             }
         })
         //check for a draw
-        
+        let draw = board.flat();
+        const checkDraw = draw.every(value => typeof value === 'string');
+        if (checkDraw === true) {
+            alert("Draw!");
+        }
     }
 
     return {
