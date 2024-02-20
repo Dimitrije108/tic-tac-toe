@@ -44,9 +44,29 @@ function Play() {
     }
 
     function winCondition() {
+        //check 3 in a row value combination
         board.forEach((array) => {
             const checkRow = array.every(value => value === activePlayer.value);
             if (checkRow === true) {
+                alert("You've won!");
+            }
+        })
+        //check 3 in a column value combination
+        let firstColumn = [];
+        let secondColumn = [];
+        let thirdColumn = [];
+
+        board.filter((array) => {
+            firstColumn.push(array[0]);
+            secondColumn.push(array[1]);
+            thirdColumn.push(array[2]);
+        })
+
+        let columns = [firstColumn, secondColumn, thirdColumn];
+
+        columns.forEach((array) => {
+            const checkColumn = array.every(value => value === activePlayer.value);
+            if (checkColumn === true) {
                 alert("You've won!");
             }
         })
