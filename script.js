@@ -1,4 +1,4 @@
-function Gameboard() {
+const Gameboard = (function() {
     const board = [];
     const row = 3;
     const column = 3;
@@ -12,11 +12,21 @@ function Gameboard() {
 
     const getBoard = () => board;
 
-    return getBoard();
-}
+    const addValue = (row, column) => {
+        if (typeof board[row][column] !== 'string') {
+            board[row][column] = GameController.getActivePlayer().value;
+        }
+    }
 
-function Play() {
-    const board = Gameboard();
+    return { 
+        getBoard,
+        addValue,
+    }
+})();
+
+const GameController = (function() {
+    const board = Gameboard;
+    const checkBoard = board.getBoard();
 
     const player1 = {
         name: this.name,
@@ -27,25 +37,24 @@ function Play() {
         value: "O",
     }
 
-    const getBoard = () => board;
-
     let activePlayer = player1;
 
-    function changePlayerTurn() {
+    const changePlayerTurn = () => {
         activePlayer = activePlayer === player1 ? player2 :  player1;
     }
 
-    function playRound(row, column) {
-        if (typeof board[row][column] !== 'string') {
-            board[row][column] = activePlayer.value;
-            winCondition();
-            changePlayerTurn();
-        }
+    const getActivePlayer = () => activePlayer;
+
+    const playRound = (row, column) => {
+        board.addValue(row, column);
+        winCondition();
+        changePlayerTurn();
+        console.log(board.getBoard());
     }
 
-    function winCondition() {
+    const winCondition = () => {
         //check 3 in a row combinations
-        board.forEach((array) => {
+        checkBoard.forEach((array) => {
             const checkRow = array.every(value => value === activePlayer.value);
             if (checkRow === true) {
                 alert("You've won!");
@@ -56,7 +65,7 @@ function Play() {
         let secondColumn = [];
         let thirdColumn = [];
 
-        board.filter((array) => {
+        checkBoard.filter((array) => {
             firstColumn.push(array[0]);
             secondColumn.push(array[1]);
             thirdColumn.push(array[2]);
@@ -77,7 +86,7 @@ function Play() {
         let first = 0;
         let second = 2;
 
-        board.filter((array) => {
+        checkBoard.filter((array) => {
             firstDiagonal.push(array[first]);
             secondDiagonal.push(array[second]);
             first++;
@@ -93,8 +102,7 @@ function Play() {
             }
         })
         //check for a draw
-        let draw = board.flat();
-        const checkDraw = draw.every(value => typeof value === 'string');
+        let checkDraw = checkBoard.flat().every(value => typeof value === 'string');
         if (checkDraw === true) {
             alert("Draw!");
         }
@@ -102,12 +110,7 @@ function Play() {
 
     return {
         playRound,
-        getBoard,
+        getActivePlayer
     }
-}
+})();
 
-const play = Play();
-
-//player objects
-
-//control the flow of the game object
