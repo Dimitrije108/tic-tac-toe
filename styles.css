@@ -1,0 +1,31 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.header {
+    background-color: rgb(194, 194, 194);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem 0 2rem 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+.gameboard {
+    width: 600px;
+    height: 600px;
+}
+
+.column {
+    width: 200px;
+    height: 200px;
+}

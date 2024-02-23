@@ -49,7 +49,6 @@ const GameController = (function() {
         board.addValue(row, column);
         winCondition();
         changePlayerTurn();
-        console.log(board.getBoard());
     }
 
     const winCondition = () => {
@@ -113,4 +112,55 @@ const GameController = (function() {
         getActivePlayer
     }
 })();
+
+const ScreenController = (function() {
+    //pull in game module - so that the DOM interacts with the playRound and so on
+    const board = Gameboard;
+    const game = GameController;
+    const gameboard = document.querySelector('.gameboard');
+    //DOM references to the game board and player turn display. These will be used by the updateScreen and clickHandlerBoard methods.
+
+    const updateScreen = (() => {
+        gameboard.textContent = '';
+        
+        board.getBoard().forEach((array, index) => {
+            let rowIndex = index;
+            array.forEach((element, index) => {
+                const column = document.createElement('button');
+                column.classList.add('column');
+                column.setAttribute('data-row', rowIndex);
+                column.setAttribute('data-column', index);
+                gameboard.appendChild(column);
+            })
+        });
+    })();
+
+    
+    //take the state of the game board and which player's turn it is, and update the screen each time a player takes their turn.
+
+    // Clear the DOM of the current board display by simply setting the .board div's text content to an empty string.
+    // Get the most up-to-date board from the game controller.
+    // Get the most up-to-date active player from the game controller.
+    // Render the player's turn in the .turn div.
+    // Render each grid square on the DOM
+    // I make sure to give each cell a data-attribute of column and set that value to the index of the cell in its row, so that when we click them in the future, we already have access to what column that cell is in.
+    // The cells are buttons, not divs. Why? In most cases, anything clickable should be a button or link. This enables those with accessability issues to still be able to use our site easily be tabbing and selecting with the keyboard.
+    gameboard.addEventListener('click', (e) => {
+        let row = e.target.dataset.row;
+        let column = e.target.dataset.column;
+        game.playRound(row, column);
+    })
+
+    const clickHandlerBoard = (() => {
+        
+        //verifies that a valid cell was clicked
+        //get the column data-attribute value, pass that into our game controller's playRound method, then run updateScreen to refresh the DOM.
+    })();
+
+    return {
+        updateScreen
+    }
+})();
+
+
 
