@@ -13,9 +13,7 @@ const Gameboard = (function() {
     const getBoard = () => board;
 
     const addValue = (row, column) => {
-        if (typeof board[row][column] !== 'string') {
-            board[row][column] = GameController.getActivePlayer().value;
-        }
+        board[row][column] = GameController.getActivePlayer().value;
     }
 
     return { 
@@ -46,10 +44,12 @@ const GameController = (function() {
     const getActivePlayer = () => activePlayer;
 
     const playRound = (row, column) => {
-        board.addValue(row, column);
-        winCondition();
-        changePlayerTurn();
-        ScreenController.updateScreen();
+        if (typeof checkBoard[row][column] !== 'string') {
+            board.addValue(row, column);
+            winCondition();
+            changePlayerTurn();
+            ScreenController.updateScreen();
+        }
     }
 
     const winCondition = () => {
@@ -138,8 +138,8 @@ const ScreenController = (function() {
     updateScreen();
 
     gameboard.addEventListener('click', (e) => {
-        let row = e.target.dataset.row;
-        let column = e.target.dataset.column;
+        let row = Number(e.target.dataset.row);
+        let column = Number(e.target.dataset.column);
         game.playRound(row, column);
     })
     
