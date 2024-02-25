@@ -44,20 +44,22 @@ const GameController = (function() {
     const getActivePlayer = () => activePlayer;
 
     const playRound = (row, column) => {
-        if (typeof checkBoard[row][column] !== 'string') {
+        if (typeof checkBoard[row][column] !== 'string' && gameStop === false) {
             board.addValue(row, column);
-            winCondition();
+            checkWinCondition();
             changePlayerTurn();
             ScreenController.updateScreen();
         }
     }
 
-    const winCondition = () => {
+    let gameStop = false;
+
+    const checkWinCondition = () => {
         //check 3 in a row combinations
         checkBoard.forEach((array) => {
             const checkRow = array.every(value => value === activePlayer.value);
             if (checkRow === true) {
-                alert("You've won!");
+                return gameStop = true;
             }
         })
         //check 3 in a column combinations
@@ -76,7 +78,7 @@ const GameController = (function() {
         columns.forEach((array) => {
             const checkColumn = array.every(value => value === activePlayer.value);
             if (checkColumn === true) {
-                alert("You've won!");
+                return gameStop = true;
             }
         })
         //check diagonal combinations
@@ -98,13 +100,18 @@ const GameController = (function() {
         diagonals.forEach((array) => {
             const checkDiagonal = array.every(value => value === activePlayer.value);
             if (checkDiagonal === true) {
-                alert("You've won!");
+                return gameStop = true;
             }
         })
+        // check for a win
+        if (gameStop === true) {
+            return;
+        }
         //check for a draw
         let checkDraw = checkBoard.flat().every(value => typeof value === 'string');
         if (checkDraw === true) {
-            alert("Draw!");
+            gameStop = true;
+            alert('draw');
         }
     }
 
