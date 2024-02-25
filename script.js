@@ -27,11 +27,11 @@ const GameController = (function() {
     const checkBoard = board.getBoard();
 
     const player1 = {
-        name: this.name,
+        name: 'playerX',
         value: "X",
     }
     const player2 = {
-        name: this.name,
+        name: 'playerO',
         value: "O",
     }
 
@@ -44,22 +44,26 @@ const GameController = (function() {
     const getActivePlayer = () => activePlayer;
 
     const playRound = (row, column) => {
-        if (typeof checkBoard[row][column] !== 'string' && gameStop === false) {
+        if (typeof checkBoard[row][column] !== 'string' && winCondition === false) {
             board.addValue(row, column);
             checkWinCondition();
-            changePlayerTurn();
+            if (winCondition === false) {
+                changePlayerTurn();
+            }
             ScreenController.updateScreen();
         }
     }
 
-    let gameStop = false;
+    let winCondition = false;
+
+    const getWinCondition = () => winCondition;
 
     const checkWinCondition = () => {
         //check 3 in a row combinations
         checkBoard.forEach((array) => {
             const checkRow = array.every(value => value === activePlayer.value);
             if (checkRow === true) {
-                return gameStop = true;
+                return winCondition = true;
             }
         })
         //check 3 in a column combinations
@@ -78,7 +82,7 @@ const GameController = (function() {
         columns.forEach((array) => {
             const checkColumn = array.every(value => value === activePlayer.value);
             if (checkColumn === true) {
-                return gameStop = true;
+                return winCondition = true;
             }
         })
         //check diagonal combinations
@@ -100,24 +104,24 @@ const GameController = (function() {
         diagonals.forEach((array) => {
             const checkDiagonal = array.every(value => value === activePlayer.value);
             if (checkDiagonal === true) {
-                return gameStop = true;
+                return winCondition = true;
             }
         })
-        // check for a win
-        if (gameStop === true) {
+        // check for a win (to avoid displaying draw message if a win was accomplished on the last turn)
+        if (winCondition === true) {
             return;
         }
         //check for a draw
         let checkDraw = checkBoard.flat().every(value => typeof value === 'string');
         if (checkDraw === true) {
-            gameStop = true;
-            alert('draw');
+            winCondition = true;
         }
     }
 
     return {
         playRound,
-        getActivePlayer
+        getActivePlayer,
+        getWinCondition
     }
 })();
 
@@ -125,9 +129,12 @@ const ScreenController = (function() {
     const board = Gameboard;
     const game = GameController;
     const gameboard = document.querySelector('.gameboard');
+    const display = document.querySelector('.display');
 
     const updateScreen = () => {
         gameboard.textContent = '';
+
+        game.getWinCondition() === true ? display.textContent = `${game.getActivePlayer().name} wins!` : display.textContent = `${game.getActivePlayer().name}'s turn`;
         
         board.getBoard().forEach((array, index) => {
             let rowIndex = index;
@@ -154,6 +161,3 @@ const ScreenController = (function() {
         updateScreen
     }
 })();
-
-
-
