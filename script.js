@@ -126,6 +126,9 @@ const GameController = (function() {
                 return winCondition = true;
             }
         })
+        if (winCondition === true) {
+            return;
+        }
         //check for a draw
         let checkDraw = checkBoard.flat().every(value => typeof value === 'string');
         if (checkDraw === true) {
@@ -134,16 +137,10 @@ const GameController = (function() {
     }
 
     const nextRound = () => {
-        if (winCondition = true) {
+        if (winCondition === true) {
             activePlayer.score++;
         }
-        if (initialPlayerTurn === player1) {
-            activePlayer = player2;
-            initialPlayerTurn = player2;
-        } else {
-            activePlayer = player1;
-            initialPlayerTurn = player1;
-        }
+        activePlayer = initialPlayerTurn === player1 ? (initialPlayerTurn = player2) : (initialPlayerTurn = player1);
         winCondition = false;
         drawCondition = false;
         board.resetBoard();
@@ -151,6 +148,8 @@ const GameController = (function() {
     }
 
     const resetGame = () => {
+        player1.score = 0;
+        player2.score = 0;
         activePlayer = player1;
         winCondition = false;
         drawCondition = false;
@@ -175,15 +174,22 @@ const ScreenController = (function() {
     const game = GameController;
     const gameboard = document.querySelector('.gameboard');
     const display = document.querySelector('.display');
+    const scorePlayer1 = document.querySelector('.scorePlayer1');
+    const scorePlayer2 = document.querySelector('.scorePlayer2');
     const nextRoundBtn = document.querySelector('.nextRound');
     const restartBtn = document.querySelector('.restartBtn');
 
     const updateScreen = () => {
         gameboard.textContent = '';
+
         game.getWinCondition() === true ? display.textContent = `${game.getActivePlayer().name} wins!` : display.textContent = `${game.getActivePlayer().name}'s turn`;
+
         if (game.getDrawCondition() === true) {
             display.textContent = "It's a draw";
         }
+
+        scorePlayer1.textContent = game.getPlayer1Score();
+        scorePlayer2.textContent = game.getPlayer2Score();
         
         board.getBoard().forEach((array, index) => {
             let rowIndex = index;
