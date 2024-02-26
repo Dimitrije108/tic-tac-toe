@@ -16,9 +16,20 @@ const Gameboard = (function() {
         board[row][column] = GameController.getActivePlayer().value;
     }
 
+    const resetBoard = () => {
+        board.forEach((row, index) => {
+            const resetRow = row;
+            const rowIndex = index;
+            resetRow.forEach((column, index) => {
+                board[rowIndex][index] = index;
+            })
+        })
+    }
+
     return { 
         getBoard,
         addValue,
+        resetBoard,
     }
 })();
 
@@ -29,10 +40,12 @@ const GameController = (function() {
     const player1 = {
         name: 'playerX',
         value: "X",
+        score: 0,
     }
     const player2 = {
         name: 'playerO',
         value: "O",
+        score: 0,
     }
 
     let activePlayer = player1;
@@ -118,10 +131,18 @@ const GameController = (function() {
         }
     }
 
+    const resetGame = () => {
+        activePlayer = player1;
+        winCondition = false;
+        board.resetBoard();
+        ScreenController.updateScreen();
+    }
+
     return {
         playRound,
         getActivePlayer,
-        getWinCondition
+        getWinCondition,
+        resetGame,
     }
 })();
 
@@ -130,6 +151,7 @@ const ScreenController = (function() {
     const game = GameController;
     const gameboard = document.querySelector('.gameboard');
     const display = document.querySelector('.display');
+    const restartBtn = document.querySelector('.restartBtn');
 
     const updateScreen = () => {
         gameboard.textContent = '';
@@ -156,8 +178,14 @@ const ScreenController = (function() {
         let column = Number(e.target.dataset.column);
         game.playRound(row, column);
     })
+
+    restartBtn.addEventListener('click', () => {
+        game.resetGame();
+    })
+
+
     
     return {
-        updateScreen
+        updateScreen,
     }
 })();
