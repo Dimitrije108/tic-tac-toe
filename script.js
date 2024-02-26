@@ -48,6 +48,10 @@ const GameController = (function() {
         score: 0,
     }
 
+    const getPlayer1Score = () => player1.score;
+    const getPlayer2Score = () => player2.score;
+
+    let initialPlayerTurn = player1;
     let activePlayer = player1;
 
     const changePlayerTurn = () => {
@@ -57,7 +61,7 @@ const GameController = (function() {
     const getActivePlayer = () => activePlayer;
 
     const playRound = (row, column) => {
-        if (typeof checkBoard[row][column] !== 'string' && winCondition === false) {
+        if (typeof checkBoard[row][column] !== 'string' && winCondition === false && drawCondition === false) {
             board.addValue(row, column);
             checkWinCondition();
             if (winCondition === false) {
@@ -68,8 +72,10 @@ const GameController = (function() {
     }
 
     let winCondition = false;
+    let drawCondition = false;
 
     const getWinCondition = () => winCondition;
+    const getDrawCondition = () => drawCondition;
 
     const checkWinCondition = () => {
         //check 3 in a row combinations
@@ -120,28 +126,46 @@ const GameController = (function() {
                 return winCondition = true;
             }
         })
-        // check for a win (to avoid displaying draw message if a win was accomplished on the last turn)
-        if (winCondition === true) {
-            return;
-        }
         //check for a draw
         let checkDraw = checkBoard.flat().every(value => typeof value === 'string');
         if (checkDraw === true) {
-            winCondition = true;
+            drawCondition = true;
         }
+    }
+
+    const nextRound = () => {
+        if (winCondition = true) {
+            activePlayer.score++;
+        }
+        if (initialPlayerTurn === player1) {
+            activePlayer = player2;
+            initialPlayerTurn = player2;
+        } else {
+            activePlayer = player1;
+            initialPlayerTurn = player1;
+        }
+        winCondition = false;
+        drawCondition = false;
+        board.resetBoard();
+        ScreenController.updateScreen();
     }
 
     const resetGame = () => {
         activePlayer = player1;
         winCondition = false;
+        drawCondition = false;
         board.resetBoard();
         ScreenController.updateScreen();
     }
 
     return {
         playRound,
+        getPlayer1Score,
+        getPlayer2Score,
         getActivePlayer,
         getWinCondition,
+        getDrawCondition,
+        nextRound,
         resetGame,
     }
 })();
@@ -151,12 +175,15 @@ const ScreenController = (function() {
     const game = GameController;
     const gameboard = document.querySelector('.gameboard');
     const display = document.querySelector('.display');
+    const nextRoundBtn = document.querySelector('.nextRound');
     const restartBtn = document.querySelector('.restartBtn');
 
     const updateScreen = () => {
         gameboard.textContent = '';
-
         game.getWinCondition() === true ? display.textContent = `${game.getActivePlayer().name} wins!` : display.textContent = `${game.getActivePlayer().name}'s turn`;
+        if (game.getDrawCondition() === true) {
+            display.textContent = "It's a draw";
+        }
         
         board.getBoard().forEach((array, index) => {
             let rowIndex = index;
@@ -177,11 +204,15 @@ const ScreenController = (function() {
         let row = Number(e.target.dataset.row);
         let column = Number(e.target.dataset.column);
         game.playRound(row, column);
+    });
+
+    nextRoundBtn.addEventListener('click', () => {
+        game.nextRound();
     })
 
     restartBtn.addEventListener('click', () => {
         game.resetGame();
-    })
+    });
 
 
     
