@@ -1,38 +1,62 @@
+@font-face {
+    font-family: 'Computer Speak';
+    src: url(fonts/Computer\ Speak\ v0.3.ttf);
+}
+
 html,
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     height: 100%;
+    background-color: rgb(194, 194, 194);
+    font-family: 'Computer Speak';
 }
 
+.container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 5fr;
+}
+
+/* HEADER styles */
+
 .header {
-    background-color: rgb(194, 194, 194);
+    font-size: 2rem;
+    padding: 1rem 0 0rem 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding: 2rem 0 2rem 0;
 }
 
 h1 {
     margin: 0;
 }
 
-.gameboard {
-    width: 600px;
-    height: 600px;
-}
+/* MAIN styles */
 
-.column {
-    width: 200px;
-    height: 200px;
+.main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr;
+    justify-items: center;
 }
 
 .display {
-    width: 400px;
+    width: 100%;
     height: 2rem;
 
     background-color: lightpink;
+}
+
+.gameboard {
+    width: 450px;
+    height: 450px;
+}
+
+.column {
+    width: 150px;
+    height: 150px;
 }
