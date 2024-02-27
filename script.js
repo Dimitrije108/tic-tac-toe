@@ -38,14 +38,19 @@ const GameController = (function() {
     const checkBoard = board.getBoard();
 
     const player1 = {
-        name: 'playerX',
+        name: 'Player X',
         value: "X",
         score: 0,
     }
     const player2 = {
-        name: 'playerO',
+        name: 'Player O',
         value: "O",
         score: 0,
+    }
+
+    const changeName = (name, number) => {
+        number === 'first' ? player1.name = name.value : player2.name = name.value;
+        ScreenController.updateScreen();
     }
 
     const getPlayer1Score = () => player1.score;
@@ -159,6 +164,7 @@ const GameController = (function() {
 
     return {
         playRound,
+        changeName,
         getPlayer1Score,
         getPlayer2Score,
         getActivePlayer,
@@ -178,6 +184,13 @@ const ScreenController = (function() {
     const scorePlayer2 = document.querySelector('.scorePlayer2');
     const nextRoundBtn = document.querySelector('.nextRound');
     const restartBtn = document.querySelector('.restartBtn');
+    //name input and confirm btn for both players
+    const player1Name = document.querySelector('#player1');
+    const player2Name = document.querySelector('#player2');
+    const player1Btn = document.querySelector('.player1Btn');
+    const player2Btn = document.querySelector('.player2Btn');
+    const player1Input = document.querySelector('.player1Input');
+    const player2Input = document.querySelector('.player2Input');
 
     const updateScreen = () => {
         gameboard.textContent = '';
@@ -206,11 +219,29 @@ const ScreenController = (function() {
 
     updateScreen();
 
+    const updateName = (name, parent, btn) => {
+        parent.removeChild(name);
+        parent.removeChild(btn);
+        const displayName = document.createElement('div');
+        displayName.textContent = name.value;
+        parent.appendChild(displayName);
+    }
+
     gameboard.addEventListener('click', (e) => {
         let row = Number(e.target.dataset.row);
         let column = Number(e.target.dataset.column);
         game.playRound(row, column);
     });
+
+    player1Btn.addEventListener('click', () => {
+        game.changeName(player1Name, 'first');
+        updateName(player1Name, player1Input, player1Btn);
+    })
+
+    player2Btn.addEventListener('click', () => {
+        game.changeName(player2Name, 'second');
+        updateName(player2Name, player2Input, player2Btn);
+    })
 
     nextRoundBtn.addEventListener('click', () => {
         game.nextRound();
@@ -219,8 +250,6 @@ const ScreenController = (function() {
     restartBtn.addEventListener('click', () => {
         game.resetGame();
     });
-
-
     
     return {
         updateScreen,
