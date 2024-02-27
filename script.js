@@ -198,7 +198,7 @@ const ScreenController = (function() {
         game.getWinCondition() === true ? display.textContent = `${game.getActivePlayer().name} wins!` : display.textContent = `${game.getActivePlayer().name}'s turn`;
 
         if (game.getDrawCondition() === true) {
-            display.textContent = "It's a draw";
+            display.textContent = "Draw!";
         }
 
         scorePlayer1.textContent = game.getPlayer1Score();
