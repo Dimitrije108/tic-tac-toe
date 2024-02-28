@@ -38,12 +38,12 @@ const GameController = (function() {
     const checkBoard = board.getBoard();
 
     const player1 = {
-        name: 'Player X',
+        name: 'Player 1',
         value: "X",
         score: 0,
     }
     const player2 = {
-        name: 'Player O',
+        name: 'Player 2',
         value: "O",
         score: 0,
     }

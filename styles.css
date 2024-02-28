@@ -60,7 +60,7 @@ h1 {
 
 .display {
     box-sizing: border-box;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-align: center;
 
     background-color: lightpink;
@@ -70,7 +70,7 @@ h1 {
 .gameboard {
     width: 450px;
     height: 450px;
-    margin: 1rem 0 1rem 0;
+    margin: 1rem 0 4rem 0;
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -96,7 +96,12 @@ h1 {
     background-color: rgb(202, 202, 202);
 }
 
-.gameContainer>button {
+.btnContainer {
+    display: flex;
+    gap: 1rem;
+}
+
+.btnContainer > button {
     margin: 0;
     padding: 0;
     font: inherit;
@@ -104,4 +109,21 @@ h1 {
     cursor: pointer;
     background-color: rgb(202, 202, 202);
     border: 4px solid black;
+    flex: 1;
+}
+
+.restartBtn:hover {
+    background-color: rgb(255, 69, 69);
+}
+
+.restartBtn:active {
+    color: white;
+}
+
+.nextRound:hover {
+    background-color: rgb(66, 214, 90);
+}
+
+.nextRound:active {
+    color: white;
 }
