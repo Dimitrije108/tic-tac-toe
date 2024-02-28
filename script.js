@@ -49,8 +49,10 @@ const GameController = (function() {
     }
 
     const changeName = (name, number) => {
-        number === 'first' ? player1.name = name.value : player2.name = name.value;
-        ScreenController.updateScreen();
+        if (name.value.length > 2) {
+            number === 'first' ? player1.name = name.value : player2.name = name.value;
+            ScreenController.updateScreen();
+        }
     }
 
     const getPlayer1Score = () => player1.score;
@@ -222,11 +224,15 @@ const ScreenController = (function() {
     updateScreen();
 
     const updateName = (name, parent, btn) => {
-        parent.removeChild(name);
-        parent.removeChild(btn);
-        const displayName = document.createElement('div');
-        displayName.textContent = name.value;
-        parent.appendChild(displayName);
+        if (name.value.length > 2) {
+            parent.removeChild(name);
+            parent.removeChild(btn);
+            const displayName = document.createElement('div');
+            displayName.textContent = name.value;
+            parent.appendChild(displayName);
+        } else {
+            alert('Please select a name longer than 2 characters');
+        }
     }
 
     gameboard.addEventListener('click', (e) => {
@@ -238,6 +244,7 @@ const ScreenController = (function() {
     player1Btn.addEventListener('click', () => {
         game.changeName(player1Name, 'first');
         updateName(player1Name, player1Input, player1Btn);
+        
     })
 
     player2Btn.addEventListener('click', () => {
