@@ -228,6 +228,7 @@ const ScreenController = (function() {
             parent.removeChild(name);
             parent.removeChild(btn);
             const displayName = document.createElement('div');
+            displayName.classList.add('displayName');
             displayName.textContent = name.value;
             parent.appendChild(displayName);
         } else {

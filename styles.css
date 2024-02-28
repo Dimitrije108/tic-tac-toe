@@ -45,7 +45,7 @@ h1 {
 
 .main {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     justify-items: center;
 }
@@ -126,4 +126,82 @@ h1 {
 
 .nextRound:active {
     color: white;
+}
+
+/* PLAYER styling */
+
+label {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.displayName {
+    font-size: 4rem;
+}
+
+.scorePara {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/* Player 1 */
+
+.player1Container {
+    justify-self: end;
+}
+
+.player1Input,
+.player2Input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+#player1,
+#player2 {
+    margin: 0.5rem 0 0.5rem 0;
+    padding: 0 0 0 0.5rem;
+    font: inherit;
+    font-size: 1.5rem;
+    background-color: rgb(221, 221, 221);
+    border: 3px solid black;
+    
+}
+
+#player1:focus,
+#player2:focus {
+    outline: none;
+}
+
+.player1Btn,
+.player2Btn {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: rgb(202, 202, 202);
+    border: 3px solid black;
+}
+
+.player1Btn:hover,
+.player2Btn:hover {
+    background-color: rgb(66, 214, 90);
+}
+
+.player1Btn:active,
+.player2Btn:active {
+    color: white;
+}
+
+.scorePlayer1,
+.scorePlayer2 {
+    text-align: center;
+    font-size: 4rem;
+}
+
+/* Player 2 */
+
+.player2Container {
+    justify-self: start;
 }
