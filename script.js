@@ -145,11 +145,13 @@ const GameController = (function() {
         if (winCondition === true) {
             activePlayer.score++;
         }
-        activePlayer = initialPlayerTurn === player1 ? (initialPlayerTurn = player2) : (initialPlayerTurn = player1);
-        winCondition = false;
-        drawCondition = false;
-        board.resetBoard();
-        ScreenController.updateScreen();
+        if (winCondition === true || drawCondition === true) {
+            activePlayer = initialPlayerTurn === player1 ? (initialPlayerTurn = player2) : (initialPlayerTurn = player1);
+            winCondition = false;
+            drawCondition = false;
+            board.resetBoard();
+            ScreenController.updateScreen();
+        }
     }
 
     const resetGame = () => {
