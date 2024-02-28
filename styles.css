@@ -20,10 +20,24 @@ body {
 }
 
 .container {
-    display: grid;
     height: 100%;
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 5fr;
+}
+
+/* Some combined button styles */
+
+.nextRound:hover,
+.player1Btn:hover,
+.player2Btn:hover {
+    background-color: rgb(66, 214, 90);
+}
+
+.btnContainer *:active,
+.player1Btn:active,
+.player2Btn:active {
+    color: white;
 }
 
 /* HEADER styles */
@@ -93,7 +107,7 @@ h1 {
 }
 
 .column:hover {
-    background-color: rgb(202, 202, 202);
+    background-color: rgb(207, 207, 207);
 }
 
 .btnContainer {
@@ -116,38 +130,24 @@ h1 {
     background-color: rgb(255, 69, 69);
 }
 
-.restartBtn:active {
-    color: white;
-}
-
-.nextRound:hover {
-    background-color: rgb(66, 214, 90);
-}
-
-.nextRound:active {
-    color: white;
-}
-
 /* PLAYER styling */
 
-label {
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-.displayName {
-    font-size: 4rem;
-}
-
+label,
 .scorePara {
     font-size: 1.5rem;
     text-align: center;
 }
 
-/* Player 1 */
+.displayName {
+    font-size: 3rem;
+}
 
 .player1Container {
     justify-self: end;
+}
+
+.player2Container {
+    justify-self: start;
 }
 
 .player1Input,
@@ -184,24 +184,8 @@ label {
     border: 3px solid black;
 }
 
-.player1Btn:hover,
-.player2Btn:hover {
-    background-color: rgb(66, 214, 90);
-}
-
-.player1Btn:active,
-.player2Btn:active {
-    color: white;
-}
-
 .scorePlayer1,
 .scorePlayer2 {
     text-align: center;
     font-size: 4rem;
-}
-
-/* Player 2 */
-
-.player2Container {
-    justify-self: start;
 }
