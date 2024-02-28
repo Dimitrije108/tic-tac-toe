@@ -133,6 +133,7 @@ const GameController = (function() {
                 return winCondition = true;
             }
         })
+        //if both win and draw conditions are true it messes up so if win is true - exit func before checking draw
         if (winCondition === true) {
             return;
         }
